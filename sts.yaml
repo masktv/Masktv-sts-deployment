@@ -55,7 +55,7 @@ spec:
           ordinal=${BASH_REMATCH[1]}
           [[ $ordinal -eq 0 ]] && exit 0
           # Clone data from previous peer.
-          previous_peer="masktv-mysql-statefulset-$(($ordinal-1)).masktv-mysql-service.svc.cluster.local"
+          previous_peer="masktv-mysql-statefulset-$(($ordinal-1)).masktv-mysql-service.default.svc.cluster.local"
           ncat --recv-only $previous_peer 3307 | xbstream -x -C /var/lib/mysql
           # Prepare the backup.
           xtrabackup --prepare --target-dir=/var/lib/mysql
@@ -142,7 +142,7 @@ spec:
             echo "Initializing replication from clone position"
             mysql -h 127.0.0.1 \
                   -e "$(<change_master_to.sql.in), \
-                          MASTER_HOST='masktv-mysql-statefulset-$(($ordinal-1)).masktv-mysql-service.svc.cluster.local', \
+                          MASTER_HOST='masktv-mysql-statefulset-$(($ordinal-1)).masktv-mysql-service.default.svc.cluster.local', \
                           MASTER_USER='root', \
                           MASTER_PASSWORD='$MYSQL_ROOT_PASSWORD', \
                           MASTER_CONNECT_RETRY=10; \
