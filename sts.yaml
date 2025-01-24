@@ -37,9 +37,9 @@ spec:
             cp /mnt/config-map/replica.cnf /mnt/conf.d/
           fi 
         volumeMounts:
-        - name: conf -----
+        - name: db-config-pv 
           mountPath: /mnt/conf.d
-        - name: config-map -----
+        - name: config-map 
           mountPath: /mnt/config-map
       - name: clone-mysql
         image: gcr.io/google-samples/xtrabackup:1.0
