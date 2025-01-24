@@ -79,11 +79,11 @@ spec:
             cpu: 200m
             memory: 100Mi
         #env:
-          #- name: MYSQL_ROOT_PASSWORD
-            #valueFrom:
-              #secretKeyRef:
-                #name: database-secrets
-                #key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: database-secrets
+                key: MYSQL_ROOT_PASSWORD
           #- name: MYSQL_DATABASE
             #valueFrom:
               #secretKeyRef:
@@ -142,9 +142,9 @@ spec:
             echo "Initializing replication from clone position"
             mysql -h 127.0.0.1 \
                   -e "$(<change_master_to.sql.in), \
-                          MASTER_HOST='mysql-0.mysql', \
+                          MASTER_HOST='masktv-mysql-statefulset-$(($ordinal-1)).masktv-mysql-service.svc.cluster.local', \
                           MASTER_USER='root', \
-                          MASTER_PASSWORD='', \
+                          MASTER_PASSWORD='$MYSQL_ROOT_PASSWORD', \
                           MASTER_CONNECT_RETRY=10; \
                         START SLAVE;" || exit 1
             # In case of container restart, attempt this at-most-once.
