@@ -66,7 +66,7 @@ spec:
         - name: db-config-pv
           mountPath: /etc/mysql/conf.d
       containers:
-      - name:  masktv-mysql-statefulset
+      - name:  masktv-mysql-container
         image: masktv/masktv:mysql
         env:
         -
