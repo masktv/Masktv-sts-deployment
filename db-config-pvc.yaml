@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-config-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""  # Use a specific storage class or leave empty for default
+  resources:
+    requests:
+      storage: 1Gi  # Set according to application size
+  volumeMode: Filesystem
+  volumeName: db-config-pv  # To Schedule this pvc on app pv [masktv-app-pv]
