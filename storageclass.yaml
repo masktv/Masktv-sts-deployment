@@ -8,4 +8,4 @@ parameters:
   fileSystemId: fs-xxxxxxxx       # Replace with your EFS filesystem ID
   directoryPerms: "700"           # Permissions for directories created by the CSI driver (optional)
 reclaimPolicy: Retain             # Keeps the EFS filesystem even after PVC deletion
-volumeBindingMode: Immediate      # Volumes will be bound immediately to pods
+volumeBindingMode: WaitForFirstConsumer     # Volumes will be bound immediately to pods
