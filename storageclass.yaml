@@ -4,8 +4,8 @@ metadata:
   name: masktv-storage-class  # Desired name for your EFS StorageClass
 provisioner: efs.csi.aws.com      # The EFS provisioner for Kubernetes (EFS CSI Driver)
 parameters:
-  provisioningMode: efs-appliance # The provisioning mode for EFS (use efs-appliance for standard EFS provisioning)
-  fileSystemId: fs-xxxxxxxx       # Replace with your EFS filesystem ID
-  directoryPerms: "700"           # Permissions for directories created by the CSI driver (optional)
+  type: gp2
+  #provisioningMode: efs-appliance # The provisioning mode for EFS (use efs-appliance for standard EFS provisioning)
+  #fileSystemId: fs-xxxxxxxx       # Replace with your EFS filesystem ID
 reclaimPolicy: Retain             # Keeps the EFS filesystem even after PVC deletion
 volumeBindingMode: WaitForFirstConsumer     # Volumes will be bound immediately to pods
