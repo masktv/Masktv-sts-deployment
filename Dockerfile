@@ -24,3 +24,5 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Specify CMD to start MySQL server
 CMD ["mysqld"]
+
+# copy custome mysql conf file whih contains configuration to connect from any host with bind address 0.0.0.0
