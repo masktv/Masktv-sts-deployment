@@ -16,11 +16,11 @@ ENV MYSQL_USER=${MYSQL_USER}
 ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
 ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
-# Copy init.sql script file to the initdb directory
+# Copy init.sql to grant permission to db and db user
 COPY ./init.sql /docker-entrypoint-initdb.d/
 
 # copy custome mysql conf to configure --> bind-address = 0.0.0.0: MySQL will accept connections from all network interfaces
-COPY my.cnf /etc/mysql/conf.d/
+COPY ./my.cnf /etc/mysql/conf.d/
 
 # Use the default entrypoint for MySQL
 ENTRYPOINT ["docker-entrypoint.sh"]
