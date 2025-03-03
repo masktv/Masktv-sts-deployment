@@ -13,4 +13,4 @@ spec:
     - ReadWriteMany  # Allows multiple Pods to read and write simultaneously
   persistentVolumeReclaimPolicy: Retain  # Change to Retain for data preservation
   local:
-    path: /mnt/EFS/db/config-file # Ensure this directory exists on the node
+    path: /mnt/efs/db/config-file # Ensure this directory exists on the node
