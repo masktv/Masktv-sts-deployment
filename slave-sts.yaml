@@ -53,10 +53,15 @@ spec:
               subPath: my.cnf
             - name: slave-mysql-pv
               mountPath: /var/lib/mysql
+            - name: mysql-log-pv
+              mountPath: /var/log/mysql
       volumes:
         - name: slave-configmap
           configMap:
             name: slave-configmap
+        - name: mysql-log-pv
+          persistentVolumeClaim:
+            claimName: mysql-log-pvc
   volumeClaimTemplates:
     - metadata:
         name: masktv-mysql-pv
