@@ -1,9 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-master
+  name: masktv-mysql-master
+  labels:
+    app: mysql-master
 spec:
-  serviceName: "mysql-master"
+  serviceName: "masktv-mysql-master-service"
   replicas: 1
   selector:
     matchLabels:
@@ -16,8 +18,9 @@ spec:
         role: master
     spec:
       containers:
-        - name: mysql
+        - name: masktv-mysql-container
           image: masktv/masktv:cnf # Replace with your custom image
+          imagePullPilicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "root_password"
@@ -31,25 +34,31 @@ spec:
               value: "master"
             - name: MYSQL_MASTER_HOST
               value: ""  # Empty because it's the master
+          resources:
+            requests:
+              cpu: 200m
+              memory: 100Mi
+          ports:
+            - containerPort: 3306
+              name: mysql
           volumeMounts:
             - name: master-configmap
               mountPath: /etc/mysql/my.cnf
               subPath: my.cnf
-            - name: mysql-pv-storage
+            - name: masktv-mysql-pv
               mountPath: /var/lib/mysql
-          ports:
-            - containerPort: 3306
-              name: mysql
       volumes:
         - name: master-configmap
           configMap:
             name: master-configmap        
   volumeClaimTemplates:
     - metadata:
-        name: mysql-pv-storage
+        name: masktv-mysql-pv
       spec:
         accessModes: 
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 20Gi
+        storageClassName: masktv-storage-class
+        volumeMode: Filesystem
