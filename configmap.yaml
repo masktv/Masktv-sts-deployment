@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: master-configmap
+data:
+  my.cnf: |
+    [mysqld]
+    # Server ID for Master
+    server-id=1
+    bind-address=0.0.0.0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: slave-configmap
+data:
+  my.cnf: |
+    [mysqld]
+    # Server ID for Slave --> for single replica of slave
+    server-id=2
+    bind-address=0.0.0.0
+  
+ # my.cnf: |
+   # [mysqld]
+    # Server ID for Slave  --> uncomment --> if multiple replica of slave
+   # server-id={{ .PodName }}
+   # bind-address=0.0.0.0
