@@ -1,30 +1,33 @@
 
-FROM mysql:latest
+FROM mysql:8.0
 
-# Expose the MySQL port
+# Expose MySQL port
 EXPOSE 3306
 
-# Argument to hold env value from docker build command
+# Arguments for MySQL
 ARG MYSQL_DATABASE
 ARG MYSQL_USER
 ARG MYSQL_PASSWORD
 ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_REPLICATION_MODE
+ARG MYSQL_MASTER_HOST
 
-# Set environment variables from the arguments
+# Set environment variables from arguments
 ENV MYSQL_DATABASE=${MYSQL_DATABASE}
 ENV MYSQL_USER=${MYSQL_USER}
 ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
 ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_REPLICATION_MODE=${MYSQL_REPLICATION_MODE}
+ENV MYSQL_MASTER_HOST=${MYSQL_MASTER_HOST}
 
-# Copy init.sql to grant permission to db and db user
-COPY ./init.sql /docker-entrypoint-initdb.d/
+# Copy the initialization script
+COPY ./init.sh /docker-entrypoint-initdb.d/
 
-# copy custome mysql conf to configure --> bind-address = 0.0.0.0: MySQL will accept connections from all network interfaces
-#COPY ./my.cnf /etc/mysql/conf.d/
+# Ensure the init script is executable
+RUN chmod +x /docker-entrypoint-initdb.d/init.sh
 
 # Use the default entrypoint for MySQL
 ENTRYPOINT ["docker-entrypoint.sh"]
 
-# Specify CMD to start MySQL server
+# Command to start MySQL server
 CMD ["mysqld"]
-
