@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: db-log-pv
+  name: mysql-log-pv
   labels:
     app: masktv-mysql
 spec:
@@ -15,4 +15,11 @@ spec:
   persistentVolumeReclaimPolicy: Retain  # Change to Retain for data preservation
   local:
     path: /mnt/efs/db/Log-file # Ensure this directory exists on the node
-  
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - ip-172-31-25-224.ap-south-1.compute.internal
