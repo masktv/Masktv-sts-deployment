@@ -18,9 +18,9 @@ spec:
         role: master
     spec:
       containers:
-        - name: masktv-mysql-container
+        - name: masktv-m-mysql-container
           image: masktv/masktv:cnf # Replace with your custom image
-          imagePullPilicy: Always
+          imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "root_password"
