@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-master
+spec:
+  serviceName: "mysql-master"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      role: master
+  template:
+    metadata:
+      labels:
+        app: mysql
+        role: master
+    spec:
+      containers:
+        - name: mysql
+          image: masktv/masktv:cnf # Replace with your custom image
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root_password"
+            - name: MYSQL_DATABASE
+              value: "myDatabase"
+            - name: MYSQL_USER
+              value: "myUser"
+            - name: MYSQL_PASSWORD
+              value: "myUserPassword"
+            - name: MYSQL_REPLICATION_MODE
+              value: "master"
+            - name: MYSQL_MASTER_HOST
+              value: ""  # Empty because it's the master
+          volumeMounts:
+            - name: master-configmap
+              mountPath: /etc/mysql/my.cnf
+              subPath: my.cnf
+            - name: mysql-pv-storage
+              mountPath: /var/lib/mysql
+          ports:
+            - containerPort: 3306
+              name: mysql
+      volumes:
+        - name: master-configmap
+          configMap:
+            name: master-configmap        
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-pv-storage
+      spec:
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
