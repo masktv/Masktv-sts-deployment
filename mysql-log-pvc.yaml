@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: db-log-pvc
+  name: mysql-log-pvc
 spec:
   accessModes:
     - ReadWriteMany
@@ -10,4 +10,4 @@ spec:
     requests:
       storage: 5Gi  # Set according to application size
   volumeMode: Filesystem
-  volumeName: db-log-pv  # To Schedule this pvc on app pv [app-log-pv]
+  volumeName: mysql-log-pv  # To Schedule this pvc on app pv [app-log-pv]
