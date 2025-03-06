@@ -1,0 +1,61 @@
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-slave
+spec:
+  serviceName: "mysql-slave"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+      role: slave
+  template:
+    metadata:
+      labels:
+        app: mysql
+        role: slave
+    spec:
+      containers:
+        - name: mysql
+          image: masktv/masktv:cnf  # Replace with your custom image
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "root_password"
+            - name: MYSQL_DATABASE
+              value: "myDatabase"
+            - name: MYSQL_USER
+              value: "myUser"
+            - name: MYSQL_PASSWORD
+              value: "myUserPassword"
+            - name: MYSQL_REPLICATION_MODE
+              value: "slave"
+            - name: MYSQL_MASTER_HOST
+              value: "mysql-master-0.mysql-master"  # Name of the master pod
+            # if slave have more than 1 replica, then to set server id diff each replica use this config with slave-configmap with 2nd option
+            #- name: MYSQL_SERVER_ID
+             # valueFrom:
+              #  fieldRef:
+               #   fieldPath: metadata.name
+          volumeMounts:
+            - name: slave-configmap
+              mountPath: /etc/mysql/my.cnf
+              subPath: my.cnf
+            - name: mysql-pv-storage
+              mountPath: /var/lib/mysql
+          ports:
+            - containerPort: 3306
+              name: mysql
+      volumes:
+        - name: slave-configmap
+          configMap:
+            name: slave-configmap
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-pv-storage
+      spec:
+        accessModes: 
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
