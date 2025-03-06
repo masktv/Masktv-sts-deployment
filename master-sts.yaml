@@ -47,10 +47,15 @@ spec:
               subPath: my.cnf
             - name: masktv-mysql-pv
               mountPath: /var/lib/mysql
+            - name: mysql-log-pv
+              mountPath: /var/log/mysql
       volumes:
         - name: master-configmap
           configMap:
-            name: master-configmap        
+            name: master-configmap
+        - name: mysql-log-pv
+          persistentVolumeClaim:
+            claimName: mysql-log-pvc
   volumeClaimTemplates:
     - metadata:
         name: masktv-mysql-pv
