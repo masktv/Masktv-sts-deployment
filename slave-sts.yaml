@@ -2,9 +2,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql-slave
+  name: masktv-mysql-slave
+  labels:
+    app: mysql-slave
 spec:
-  serviceName: "mysql-slave"
+  serviceName: "masktv-mysql-slave-service"
   replicas: 1
   selector:
     matchLabels:
@@ -17,8 +19,9 @@ spec:
         role: slave
     spec:
       containers:
-        - name: mysql
+        - name: masktv-s-mysql-container
           image: masktv/masktv:cnf  # Replace with your custom image
+          imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "root_password"
@@ -37,25 +40,31 @@ spec:
              # valueFrom:
               #  fieldRef:
                #   fieldPath: metadata.name
+          resources:
+            requests:
+              cpu: 200m
+              memory: 100Mi
+          ports:
+            - containerPort: 3306
+              name: mysql
           volumeMounts:
             - name: slave-configmap
               mountPath: /etc/mysql/my.cnf
               subPath: my.cnf
-            - name: mysql-pv-storage
+            - name: slave-mysql-pv
               mountPath: /var/lib/mysql
-          ports:
-            - containerPort: 3306
-              name: mysql
       volumes:
         - name: slave-configmap
           configMap:
             name: slave-configmap
   volumeClaimTemplates:
     - metadata:
-        name: mysql-pv-storage
+        name: masktv-mysql-pv
       spec:
         accessModes: 
           - ReadWriteOnce
         resources:
           requests:
-            storage: 1Gi
+            storage: 20Gi
+        storageClassName: masktv-storage-class
+        volumeMode: Filesystem
