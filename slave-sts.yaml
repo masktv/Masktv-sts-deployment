@@ -34,8 +34,8 @@ spec:
             - name: MYSQL_REPLICATION_MODE
               value: "slave"
             - name: MYSQL_MASTER_HOST
-              #value: "masktv-mysql-master-0.masktv-mysql-master-service"  # Name of the master pod
-              value: "masktv-mysql-master-0.masktv-mysql-server"             
+              value: "masktv-mysql-master-0.masktv-mysql-master-service"  # Name of the master pod
+              #value: "masktv-mysql-master-0.masktv-mysql-server"             
             # if slave have more than 1 replica, then to set server id diff each replica use this config with slave-configmap with 2nd option
             #- name: MYSQL_SERVER_ID
              # valueFrom:
