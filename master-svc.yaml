@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: masktv-mysql-master-service
+  #name: masktv-mysql-master-service
+  name: masktv-mysql-server
 spec:
   ports:
     - port: 3306
   clusterIP: None
   selector:
     app: mysql
-    role: master
+    #role: master
 
