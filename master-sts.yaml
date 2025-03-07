@@ -45,7 +45,7 @@ spec:
             - name: master-configmap
               mountPath: /etc/mysql/my.cnf
               subPath: my.cnf
-            - name: masktv-mysql-pv
+            - name: master-mysql-pv
               mountPath: /var/lib/mysql
             - name: mysql-log-pv
               mountPath: /var/log/mysql
@@ -58,7 +58,7 @@ spec:
             claimName: mysql-log-pvc
   volumeClaimTemplates:
     - metadata:
-        name: masktv-mysql-pv
+        name: master-mysql-pv
       spec:
         accessModes: 
           - ReadWriteOnce
