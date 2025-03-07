@@ -64,7 +64,7 @@ spec:
             claimName: mysql-log-pvc
   volumeClaimTemplates:
     - metadata:
-        name: masktv-mysql-pv
+        name: slave-mysql-pv
       spec:
         accessModes: 
           - ReadWriteOnce
