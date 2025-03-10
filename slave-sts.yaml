@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mysql-slave
 spec:
-  serviceName: "masktv-mysql-slave-service"
+  serviceName: "masktv-mysql-master-service"
   replicas: 1
   selector:
     matchLabels:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: masktv-s-mysql-container
-          image: masktv/masktv:cnf  # Replace with your custom image
+          image: masktv/masktv:imp  # Replace with your custom image
           imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -71,6 +71,6 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20Gi
+            storage: 10Gi
         storageClassName: masktv-storage-class
         volumeMode: Filesystem
