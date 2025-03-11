@@ -6,7 +6,7 @@ metadata:
   labels:
     app: mysql-slave
 spec:
-  serviceName: "masktv-mysql-master-service"
+  serviceName: "masktv-mysql-slave-service"
   replicas: 1
   selector:
     matchLabels:
