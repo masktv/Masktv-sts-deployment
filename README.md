@@ -31,8 +31,30 @@ spec:
         - containerPort: 6032
         - containerPort: 6033
 
+Service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxysql
+spec:
+  ports:
+    - name: mysql  # Name for the MySQL client port (default 3306)
+      port: 3306
+      targetPort: 3306
+    - name: admin  # Name for the ProxySQL admin interface (port 6032)
+      port: 6032
+      targetPort: 6032
+    - name: mysql-client  # Name for the ProxySQL MySQL client port (port 6033)
+      port: 6033
+      targetPort: 6033
+  selector:
+    app: proxysql
+
+    
 kubectl exec -it <proxysql-pod-name> -- /bin/bash   ------- ssh in to proxysql pod
-then    mysql -u admin -p -h 127.0.0.1 -P 6032
+before run below cmd first forward port on 6032 port
+then    mysql -u admin -p -h 127.0.0.1 -P 6032 --> this connect with admin panel in proxysql
 
 then  --> set  backend server
 
@@ -83,4 +105,8 @@ SAVE MYSQL QUERY RULES TO DISK;
 SELECT * FROM mysql_servers;   --> check backend server -->  master slave service name
 SELECT * FROM mysql_users;     --> application user
 SELECT * FROM mysql_query_rules;  --> check query rule to check how proxysql route traffic on master slave 
+..........................................................................................................
+after check on master pod accesable from svc name of proxysql pod svc
+mysql -u myUser -p -h proxysql.default.svc.cluster.local -P 6033    --> this should be accesseble
+
  
