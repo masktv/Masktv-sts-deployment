@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxysql
+  labels:
+    app: proxysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxysql
+  template:
+    metadata:
+      labels:
+        app: proxysql
+    spec:
+      containers:
+      - name: proxysql
+        image: proxysql/proxysql
+        ports:
+        - containerPort: 6032
+        - containerPort: 6033
