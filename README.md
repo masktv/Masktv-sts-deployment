@@ -100,6 +100,15 @@ SAVE MYSQL USERS TO DISK;
 -- Save query rules to disk
 SAVE MYSQL QUERY RULES TO DISK;
 
+-- to connect from any host
+UPDATE mysql_users
+SET attributes = '{}'
+WHERE username = 'myUser';
+
+--  refresh
+LOAD MYSQL USERS TO RUNTIME;
+SAVE MYSQL USERS TO DISK;
+
 ---> Varify Configuration
 
 SELECT * FROM mysql_servers;   --> check backend server -->  master slave service name
