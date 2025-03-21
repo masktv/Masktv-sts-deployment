@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: proxysql
+  name: proxysql-deployment
   labels:
     app: proxysql
 spec:
@@ -16,7 +16,24 @@ spec:
     spec:
       containers:
       - name: proxysql
-        image: proxysql/proxysql
+        image: masktv/masktv:proxysql  # Use the image you've built with the Dockerfile
         ports:
-        - containerPort: 6032
-        - containerPort: 6033
+        - containerPort: 6032  # Admin port
+        - containerPort: 6033  # MySQL client port
+        env:
+        - name: ADMIN_USER
+          value: "adminuser"  # Define the admin user for ProxySQL
+        - name: ADMIN_USER_PASSWORD
+          value: "adminpassword"  # Define the admin user's password for ProxySQL
+        - name: MYSQL_USER
+          value: "myUser"
+        - name: MYSQL_PASSWORD
+          value: "myUserPassword"
+        - name: MYSQL_MASTER_HOST
+          value: "masktv-mysql-master-service"  # Replace with your actual master hostname or service name
+        - name: MYSQL_SLAVE_HOST
+          value: "masktv-mysql-slave-service"  # Replace with your actual slave hostname or service name
+        - name: MYSQL_HOSTGROUP_MASTER
+          value: "0"  # Hostgroup for master
+        - name: MYSQL_HOSTGROUP_SLAVE
+          value: "1"  # Hostgroup for slave
