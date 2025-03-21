@@ -24,23 +24,23 @@ spec:
         - name: ADMIN_USER
           valueFrom:
             secretKeyRef:
-              name: proxysql-secrets
-              key: adminuser
+              name: db-secrets
+              key: ADMIN_USER
         - name: ADMIN_USER_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: proxysql-secrets  
-              key: adminuser-password  
+              name: db-secrets  
+              key: ADMIN_USER_PASSWORD 
         - name: MYSQL_USER
           valueFrom:
             secretKeyRef:
-              name: proxysql-secrets
-              key: mysqluser
+              name: db-secrets
+              key: MYSQL_USER
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: proxysql-secrets
-              key: mysqluser-password
+              name: db-secrets
+              key: MYSQL_PASSWORD
         - name: MYSQL_MASTER_HOST
           value: "masktv-mysql-master-service"
         - name: MYSQL_SLAVE_HOST
