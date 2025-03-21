@@ -19,17 +19,29 @@ spec:
     spec:
       containers:
         - name: masktv-m-mysql-container
-          image: masktv/masktv:imp # Replace with your custom image
+          image: masktv/masktv:mysql
           imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "root_password"
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets
+                  key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
-              value: "myDatabase"
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets 
+                  key: MYSQL_DATABASE
             - name: MYSQL_USER
-              value: "myUser"
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets  
+                  key: MYSQL_USER 
             - name: MYSQL_PASSWORD
-              value: "myUserPassword"
+              valueFrom:
+                secretKeyRef:
+                  name: db-secrets 
+                  key: MYSQL_PASSWORD
             - name: MYSQL_REPLICATION_MODE
               value: "master"
             - name: MYSQL_MASTER_HOST
