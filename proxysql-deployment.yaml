@@ -16,24 +16,36 @@ spec:
     spec:
       containers:
       - name: proxysql
-        image: masktv/masktv:proxysql  # Use the image you've built with the Dockerfile
+        image: masktv/masktv:proxysql
         ports:
-        - containerPort: 6032  # Admin port
-        - containerPort: 6033  # MySQL client port
+        - containerPort: 6032
+        - containerPort: 6033 
         env:
         - name: ADMIN_USER
-          value: "adminuser"  # Define the admin user for ProxySQL
+          valueFrom:
+            secretKeyRef:
+              name: proxysql-secrets
+              key: adminuser
         - name: ADMIN_USER_PASSWORD
-          value: "adminpassword"  # Define the admin user's password for ProxySQL
+          valueFrom:
+            secretKeyRef:
+              name: proxysql-secrets  
+              key: adminuser-password  
         - name: MYSQL_USER
-          value: "myUser"
+          valueFrom:
+            secretKeyRef:
+              name: proxysql-secrets
+              key: mysqluser
         - name: MYSQL_PASSWORD
-          value: "myUserPassword"
+          valueFrom:
+            secretKeyRef:
+              name: proxysql-secrets
+              key: mysqluser-password
         - name: MYSQL_MASTER_HOST
-          value: "masktv-mysql-master-service"  # Replace with your actual master hostname or service name
+          value: "masktv-mysql-master-service"
         - name: MYSQL_SLAVE_HOST
-          value: "masktv-mysql-slave-service"  # Replace with your actual slave hostname or service name
+          value: "masktv-mysql-slave-service"
         - name: MYSQL_HOSTGROUP_MASTER
-          value: "0"  # Hostgroup for master
+          value: "0"
         - name: MYSQL_HOSTGROUP_SLAVE
-          value: "1"  # Hostgroup for slave
+          value: "1"
