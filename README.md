@@ -21,12 +21,17 @@ VALUES ('myUser', 'myUserPassword', 0, 1);
 
 -----> Configure Query Rules for Read-Write Splitting
 
--- Route SELECT queries to the slave
+-- Route READ queries to the slave
 INSERT INTO mysql_query_rules (active, match_pattern, destination_hostgroup) 
-VALUES (1, '^SELECT', 1);
+VALUES (1, '^SELECT|^SHOW|^DESCRIBE|^EXPLAIN|^INFORMATION_SCHEMA', 1);
+#INSERT INTO mysql_query_rules (active, match_pattern, destination_hostgroup) 
+#VALUES (1, '^SELECT', 1);
+
 -- Route INSERT, UPDATE, DELETE queries to the master
 INSERT INTO mysql_query_rules (active, match_pattern, destination_hostgroup) 
-VALUES (1, '^INSERT|^UPDATE|^DELETE', 0);
+VALUES (1, '^INSERT|^UPDATE|^DELETE|^REPLACE|^TRUNCATE|^CREATE|^ALTER|^DROP|^GRANT|^REVOKE|^LOCK|^UNLOCK|^RENAME|^OPTIMIZE|^ANALYZE', 0);
+#INSERT INTO mysql_query_rules (active, match_pattern, destination_hostgroup) 
+#VALUES (1, '^INSERT|^UPDATE|^DELETE', 0);
 
 ----> Load Configuration In Runtime
 
