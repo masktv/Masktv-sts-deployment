@@ -16,36 +16,37 @@ spec:
     spec:
       containers:
       - name: proxysql
-        image: masktv/masktv:proxysql
+        image: proxysql/proxysql:latest
         ports:
         - containerPort: 6032
         - containerPort: 6033 
-        env:
-        - name: ADMIN_USER
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: ADMIN_USER
-        - name: ADMIN_USER_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets  
-              key: ADMIN_USER_PASSWORD 
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secrets
-              key: MYSQL_PASSWORD
-        - name: MYSQL_MASTER_HOST
-          value: "masktv-mysql-master-service"
-        - name: MYSQL_SLAVE_HOST
-          value: "masktv-mysql-slave-service"
-        - name: MYSQL_HOSTGROUP_MASTER
-          value: "0"
-        - name: MYSQL_HOSTGROUP_SLAVE
-          value: "1"
+        #if pass value in proxysql routing rule and other use this ---- > allready tried but mysql is not support for use value from env, there should need to directly mention value
+        #env:
+        #- name: ADMIN_USER
+          #valueFrom:
+            #secretKeyRef:
+              #name: db-secrets
+              #key: ADMIN_USER
+        #- name: ADMIN_USER_PASSWORD
+          #valueFrom:
+            #secretKeyRef:
+              #name: db-secrets  
+              #key: ADMIN_USER_PASSWORD 
+        #- name: MYSQL_USER
+          #valueFrom:
+            #secretKeyRef:
+              #name: db-secrets
+              #key: MYSQL_USER
+        #- name: MYSQL_PASSWORD
+          #valueFrom:
+            #secretKeyRef:
+              #name: db-secrets
+              #key: MYSQL_PASSWORD
+        #- name: MYSQL_MASTER_HOST
+          #value: "masktv-mysql-master-service"
+        #- name: MYSQL_SLAVE_HOST
+          #value: "masktv-mysql-slave-service"
+        #- name: MYSQL_HOSTGROUP_MASTER
+          #value: "0"
+        #- name: MYSQL_HOSTGROUP_SLAVE
+          #value: "1"
